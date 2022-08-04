@@ -7,10 +7,16 @@ require("dotenv").config();
 const fs = require("fs");
 
 const { register, login } = require("./controller/Auth/auth.controller");
-const collectionController = require("../src/controller/collection.controller");
-const nftController = require("../src/controller/nft.controller");
+const collectionController = require("./controller/collection.controller");
+const nftController = require("./controller/nft.controller");
 
 const app = express();
+
+app.get("/", (req, res) => {
+  res.send("Welcome to the Nft Exchange");
+  res.end();
+});
+
 app.use(express.json());
 
 app.post("/register", register);
@@ -21,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors());
 
-const connect = require("./config/db");
+const connect = require("../src/config/db");
 
 const port = process.env.PORT || 12345;
 cloudinary.config({
@@ -37,7 +43,6 @@ app.use("/nft", nftController);
 app.get("/", async (req, res) => {
   res.send("Welcome to the Nft Exchange");
 });
-
 
 app.listen(port, async () => {
   await connect();
