@@ -6,9 +6,9 @@ const bodyParser = require("body-parser");
 require("dotenv").config();
 const fs = require("fs");
 
-const { register, login } = require("./controller/Auth/auth.controller");
-const collectionController = require("./controller/collection.controller");
-const nftController = require("./controller/nft.controller");
+const { register, login } = require("./src/controller/Auth/auth.controller");
+const collectionController = require("./src/controller/collection.controller");
+const nftController = require("./src/controller/nft.controller");
 
 const app = express();
 
@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors());
 
-const connect = require("../src/config/db");
+const connect = require("./src/config/db");
 
 const port = process.env.PORT || 12345;
 cloudinary.config({
