@@ -37,6 +37,8 @@ app.use("/nft", nftController);
 app.get("/", async (req, res) => {
   res.send("Welcome to the Nft Exchange");
 });
+
+
 app.listen(port, async () => {
   await connect();
   console.log(`server is runnning at port ${port}`);
