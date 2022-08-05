@@ -9,6 +9,7 @@ const nftSchema = mongoose.Schema(
     tokenUri: { type: Object },
     media: { type: Object },
     metadata: { type: Object },
+    cloud_image_url: { type: String }
   },
   {
     versionKey: false,

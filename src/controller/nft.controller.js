@@ -125,14 +125,12 @@ router.post("/:address", async (req, res) => {
           req.params.address
         );
 
-      // for (let i = 0; i < nfts.length; i++) {
-      //   let modifiedone = await nft_cloudinary_uploader.uploadImage(nfts[i]);
-      //   console.log(modifiedone, "hello");
-      // let nft = await NftModel.create(nfts[i]);
-      // console.log(nft);
-      //}
-      let nft = await NftModel.insertMany(nfts);
+      for (let i = 0; i < nfts.length; i++) {
+        let modifiedone = await nft_cloudinary_uploader.uploadImage(nfts[i]);
+      }
 
+      let nft = await NftModel.insertMany(nfts);
+      console.log(nft);
       // console.log(nft);
       if (!nextToken) {
         // When nextToken is not present, then there are no more NFTs to fetch.
@@ -156,16 +154,6 @@ router.delete("/:address", async (req, res) => {
     });
 
     console.log(nft);
-    // nft.forEach((item) => {
-    //   if (item.contract.address == req.params.address) {
-    //     let removed = NftModel.remove(item);
-    //     console.log(removed);
-    //   }
-    // });
-    // nft.forEach(async function (doc) {
-    //   let removed = await NftModel.remove(doc);
-    //   console.log(removed);
-    // });
 
     return res.status(201).send({ nft });
   } catch (e) {
