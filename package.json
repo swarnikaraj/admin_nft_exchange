@@ -29,6 +29,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongo": "^0.1.0",
     "mongoose": "^6.4.4",
+    "moralis": "^2.0.1",
     "node-fetch": "^3.2.9",
     "nodemon": "^2.0.19",
     "web3": "^1.7.4"

@@ -24,7 +24,7 @@ function nftObjectCheck(nftObject) {
   );
 }
 
-// I will check if it passes the nft object check and will return
+// It will check if it passes the nft object check and will return list of failed list
 function nftArrayCheck(nftsArray) {
   let failedList = [];
   for (let i = 0; i < nftsArray.length; i++) {

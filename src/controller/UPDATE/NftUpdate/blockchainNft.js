@@ -1,13 +1,16 @@
 const express = require("express");
 const NftModel = require("../../../model/nft.model");
 const nft_middleware = require("../../../middleware/nft.middleware");
-
+const router = express.Router();
 //  this router needs list of defected nfts
-router.patch("updateDefected", async (req, res) => {
+// this router will updated tokenuRI
+
+router.patch("updateDefected/tokenURI", async (req, res) => {
   try {
     var nftUpdated = [];
     const defectedNfts = req.body.nfts;
 
+    
     for (let i = 0; i < defectedNfts.length; i++) {
       var tokenUri = await nft_middleware.getTokenUriForUpdateBlockChain(
         defectedNfts[i]
@@ -20,7 +23,7 @@ router.patch("updateDefected", async (req, res) => {
 
       const nft = await NftModel.findOneAndUpdate(
         { _id: defectedNfts[i]._id },
-        newNftObj,
+        newObj,
         { new: true }
       )
         .lean()
@@ -35,3 +38,5 @@ router.patch("updateDefected", async (req, res) => {
     return res.status(500).json({ status: "failed", message: e.message });
   }
 });
+
+module.exports = router;
