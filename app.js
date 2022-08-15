@@ -5,6 +5,8 @@ const cloudinary = require("cloudinary").v2;
 const bodyParser = require("body-parser");
 require("dotenv").config();
 const fs = require("fs");
+const authenticatedRoute=require('./src/middleware/Auth/authenticate')
+
 
 const { register, login } = require("./src/controller/Auth/auth.controller");
 
@@ -62,7 +64,7 @@ app.get("/", (req, res) => {
 
 app.use(express.json());
 
-app.post("/admin/register", register);
+app.post("/admin/register",authenticatedRoute, register);
 app.post("admin/login", login);
 
 app.use(bodyParser.json());

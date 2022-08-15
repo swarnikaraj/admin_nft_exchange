@@ -16,7 +16,7 @@ module.exports = async (req, res, next) => {
 
   // if not received or token is not a bearer token then we will throw an error
   if (!bearerToken || !bearerToken.startsWith("Bearer "))
-    return res.status(400).json({
+    return res.status(401).json({
       status: "failed",
       message: " Please provide a valid token",
     });
@@ -28,16 +28,16 @@ module.exports = async (req, res, next) => {
   try {
     user = await verifyToken(token);
   } catch (e) {
-    return res.status(400).json({
+    return res.status(401).json({
       status: "failed",
       message: "Please provide a valid token",
     });
   }
   // if no user found then we will throw an error
   if (!user)
-    return res.status(400).json({
+    return res.status(404).json({
       status: "failed",
-      message: " Please provide a valid token",
+      message: " User not found",
     });
 
   // else we will attach the user to the req

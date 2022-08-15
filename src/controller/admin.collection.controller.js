@@ -7,9 +7,9 @@ const collection_cloudinary_uploader = require("../middleware/collection.imageUp
 const authenticatedRoute = require("../middleware/Auth/authenticate");
 const router = express.Router();
 
-
 router.post(
   "/:address",
+  authenticatedRoute ,
 
   collection_middleware.createCollection,
   collection_cloudinary_uploader.uploadImage,
@@ -37,8 +37,6 @@ router.post(
       };
       collection = await CollectionModel.create(finalData);
 
-
-      
       return res.status(200).json({ collection });
     } catch (e) {
       return res.status(500).json({ status: "failed", message: e.message });
@@ -46,9 +44,8 @@ router.post(
   }
 );
 
-router.delete("/:address", async (req, res) => {
+router.delete("/:address", authenticatedRoute, async (req, res) => {
   try {
-    console.log("1");
 
     const collection = await CollectionModel.findOneAndDelete({
       address: req.params.address,

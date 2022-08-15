@@ -3,11 +3,11 @@ const NftModel = require("../model/nft.model");
 const filterNfts = require("../../src/utils/filterNfts");
 const router = express.Router();
 
+const authenticatedRoute=require("../middleware/Auth/authenticate")
 
 
 
-
-router.get("/:address", async (req, res) => {
+router.get("/:address",authenticatedRoute, async (req, res) => {
   try {
     const nft = await await NftModel.find({
       contract: { address: req.params.address },

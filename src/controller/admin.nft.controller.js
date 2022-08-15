@@ -4,11 +4,11 @@ const NftModel = require("../model/nft.model");
 const get_data_alchemy = require("../../src/GET_DATA/Alchemy/getNftsForCollection");
 
 const router = express.Router();
+const authenticatedRoute=require("../middleware/Auth/authenticate")
 
 
 
-
-router.post("/:address", async (req, res) => {
+router.post("/:address",authenticatedRoute, async (req, res) => {
   try {
     // check if already there
 
@@ -55,7 +55,7 @@ router.post("/:address", async (req, res) => {
   }
 });
 
-router.delete("/:address", async (req, res) => {
+router.delete("/:address",authenticatedRoute, async (req, res) => {
   try {
     console.log("start deleting");
     const nft = await NftModel.deleteMany({
