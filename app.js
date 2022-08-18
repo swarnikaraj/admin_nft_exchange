@@ -5,8 +5,7 @@ const cloudinary = require("cloudinary").v2;
 const bodyParser = require("body-parser");
 require("dotenv").config();
 const fs = require("fs");
-const authenticatedRoute=require('./src/middleware/Auth/authenticate')
-
+const authenticatedRoute = require("./src/middleware/Auth/authenticate");
 
 const { register, login } = require("./src/controller/Auth/auth.controller");
 
@@ -29,7 +28,7 @@ const AdminNftController = require("./src/controller/admin.nft.controller");
 // it is client controller for NFT
 // it Doesnt append the cloud image to the object
 // it has get request for nfts
-const NftController = require("./src/controller/admin.nft.controller");
+const NftController = require("./src/controller/nft.controller");
 
 // this controller will update token Uri for the nfts using blockchain middleware .
 // it takes updateDefected/tokenURI in the path for tokenURI update
@@ -64,7 +63,7 @@ app.get("/", (req, res) => {
 
 app.use(express.json());
 
-app.post("/admin/register",authenticatedRoute, register);
+app.post("/admin/register", authenticatedRoute, register);
 app.post("admin/login", login);
 
 app.use(bodyParser.json());
