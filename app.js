@@ -64,7 +64,7 @@ app.get("/", (req, res) => {
 app.use(express.json());
 
 app.post("/admin/register", authenticatedRoute, register);
-app.post("admin/login", login);
+app.post("/admin/login", login);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
