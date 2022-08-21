@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+
 const makerOrderSchema = mongoose.Schema(
   { isOrderAsk:{type:Boolean, required:true},// true --> ask / false --> bid
     signerAddress: { type: String ,required:true},// signer of the maker order

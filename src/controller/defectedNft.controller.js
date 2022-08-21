@@ -22,9 +22,9 @@ router.get("/:address", authenticatedRoute, async (req, res) => {
     console.log(totalNfts, "tote");
 
     defectedNfts = await filterNfts.nftArrayCheck(nft);
-
+    var len = defectedNfts.length;
     console.log(defectedNfts, "defected");
-    return res.status(201).send({ defectedNfts, totalNfts });
+    return res.status(201).send({ len, totalNfts });
   } catch (e) {
     return res.status(500).json({ status: "failed", message: e.message });
   }

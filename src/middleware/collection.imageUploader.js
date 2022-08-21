@@ -14,10 +14,12 @@ const uploadImage = async (req, res, next) => {
         console.log(result, error);
       }
     );
-    
+
     const finalUrl = result.secure_url;
     console.log(finalUrl, "final url");
     req.body.cloud_image_url = finalUrl;
+    req.body.banner.src = finalUrl;
+    req.body.logo.src = finalUrl;
   } catch (err) {
     console.log(err);
   }

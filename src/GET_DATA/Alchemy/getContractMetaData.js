@@ -3,7 +3,7 @@ const axios = require("axios");
 const Alchemy = require("../../API/alchemy");
 // replace with your Alchemy api key
 
-function getContractMetaData(address) {
+async function getContractMetaData(address) {
   const baseURL = Alchemy.baseURL + "getContractMetadata";
   const contractAddr = address;
 
@@ -13,9 +13,13 @@ function getContractMetaData(address) {
     headers: {},
   };
 
-  const res = axios(config)
-    .then((response) => console.log(JSON.stringify(response.data, null, 2)))
-    .catch((error) => console.log(error));
+  try {
+    const res = await axios(config);
+
+    return res.data;
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 module.exports = { getContractMetaData };
