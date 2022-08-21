@@ -55,4 +55,20 @@ router.get("/:address", async (req, res) => {
   }
 });
 
+router.get("/:address/:tokenId", async (req, res) => {
+  try {
+    const nft = await NftModel.findOne({
+      contract: { address: req.params.address },
+      tokenId: req.params.tokenId,
+    })
+
+      .lean()
+      .exec();
+
+    return res.status(201).send({ nft });
+  } catch (e) {
+    return res.status(500).json({ status: "failed", message: e.message });
+  }
+});
+
 module.exports = router;

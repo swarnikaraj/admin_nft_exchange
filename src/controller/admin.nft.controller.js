@@ -1,15 +1,26 @@
 const express = require("express");
 const NftModel = require("../model/nft.model");
-
+const crypto = require("crypto");
+const CollectionModel = require("../model/collection.model");
 const get_data_alchemy = require("../../src/GET_DATA/Alchemy/getNftsForCollection");
 
 const router = express.Router();
-const authenticatedRoute=require("../middleware/Auth/authenticate")
+const authenticatedRoute = require("../middleware/Auth/authenticate");
+const formatAttribute = require("../utils/formateAtrribute");
+const { formateNftList } = require("../utils/formateNfts");
 
-
-
-router.post("/:address",authenticatedRoute, async (req, res) => {
+router.post("/:address", async (req, res) => {
   try {
+    //   get  _Id fromcollection by finding by address
+
+    var collection = await CollectionModel.find({
+      address: req.params.address,
+    })
+      .lean()
+      .exec();
+
+    var mongoId = collection[0]._id;
+
     // check if already there
 
     let nfts = await NftModel.find({
@@ -38,9 +49,25 @@ router.post("/:address",authenticatedRoute, async (req, res) => {
           req.params.address
         );
 
+      for (let i = 0; i < nfts.length; i++) {
+        nfts[i].Collection = mongoId;
+      }
+      for (let j = 0; j < nfts.length; j++) {
+      let formatedImage={
+        src:nfts[j].tokenUri.gateway
+      }
+
+         nfts[j].name = nfts[j].metadata.name;
+          nfts[j].tokenId = nfts[j].id.tokenId;
+          nfts[j].image=formatedImage;
+         formatAttribute.formatNftAttributes(nfts[j].metadata.attributes,nfts[j]);
+          nfts[j].id = crypto.randomUUID();
+        
+      }
       let nft = await NftModel.insertMany(nfts);
-      console.log(nft);
-      // console.log(nft);
+
+      console.log(nfts);
+
       if (!nextToken) {
         // When nextToken is not present, then there are no more NFTs to fetch.
         hasNextPage = false;
@@ -55,7 +82,7 @@ router.post("/:address",authenticatedRoute, async (req, res) => {
   }
 });
 
-router.delete("/:address",authenticatedRoute, async (req, res) => {
+router.delete("/:address", async (req, res) => {
   try {
     console.log("start deleting");
     const nft = await NftModel.deleteMany({

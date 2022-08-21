@@ -18,6 +18,7 @@ const uploadImage = async (nftObject) => {
     const finalUrl = await result.secure_url;
     // console.log(finalUrl, "final url");
     nftObject.cloud_image_url = await finalUrl;
+    nftObject.image.src=await finalUrl;
   } catch (err) {
     console.log(err);
   }

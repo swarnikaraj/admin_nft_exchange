@@ -86,7 +86,7 @@ const collectionSchema = mongoose.Schema(
     discordLink: { type: String },
 
     symbol: { type: String },
-    totalSuppply: { type: String },
+    totalSupply: { type: String },
     displayData: { type: Object },
     countOwners: { type: Number },
     owner: { type: CollectionOwner },
