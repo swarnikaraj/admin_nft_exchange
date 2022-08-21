@@ -9,7 +9,7 @@ const authenticatedRoute = require("../middleware/Auth/authenticate");
 const formatAttribute = require("../utils/formateAtrribute");
 const { formateNftList } = require("../utils/formateNfts");
 
-router.post("/:address", async (req, res) => {
+router.post("/:address",authenticatedRoute, async (req, res) => {
   try {
     //   get  _Id fromcollection by finding by address
 
@@ -82,7 +82,7 @@ router.post("/:address", async (req, res) => {
   }
 });
 
-router.delete("/:address", async (req, res) => {
+router.delete("/:address",authenticatedRoute, async (req, res) => {
   try {
     console.log("start deleting");
     const nft = await NftModel.deleteMany({

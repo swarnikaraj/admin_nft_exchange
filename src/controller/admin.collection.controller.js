@@ -10,7 +10,7 @@ const router = express.Router();
 
 
 router.post(
-  "/:address",
+  "/:address",authenticatedRoute,
   collection_middleware.createCollection,
   collection_cloudinary_uploader.uploadImage,
   async (req, res) => {
@@ -46,7 +46,7 @@ router.post(
   }
 );
 
-router.delete("/:address", async (req, res) => {
+router.delete("/:address",authenticatedRoute, async (req, res) => {
   try {
     const collection = await CollectionModel.findOneAndDelete({
       address: req.params.address,
