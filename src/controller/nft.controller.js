@@ -31,13 +31,18 @@ router.get("/:address", async (req, res) => {
 
     const skip = (page - 1) * size;
 
-    const nft = await NftModel.find({
+    const initialTokens = await NftModel.find({
       contract: { address: req.params.address },
-    })
+    }).populate("Collection")
       .skip(skip)
       .limit(size)
       .lean()
       .exec();
+
+for(let i=0;i<initialTokens.length;i++){
+
+  initialTokens[i].collection=  initialTokens[i].Collection;
+}
 
     totalPages = Math.ceil(
       (await NftModel.find({
@@ -49,7 +54,7 @@ router.get("/:address", async (req, res) => {
       contract: { address: req.params.address },
     }).countDocuments();
 
-    return res.status(201).send({ nft, totalPages, totalNfts });
+    return res.status(201).send({ initialTokens, totalPages, totalNfts });
   } catch (e) {
     return res.status(500).json({ status: "failed", message: e.message });
   }
