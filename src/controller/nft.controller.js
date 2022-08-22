@@ -42,6 +42,7 @@ router.get("/:address", async (req, res) => {
 for(let i=0;i<initialTokens.length;i++){
 
   initialTokens[i].collection=  initialTokens[i].Collection;
+  delete initialTokens[i].Collection;
 }
 
     totalPages = Math.ceil(
