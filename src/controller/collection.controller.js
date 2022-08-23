@@ -20,8 +20,10 @@ router.get("/", async (req, res) => {
 
 router.get("/:address", async (req, res) => {
   try {
+
+    const queryAddress = +req.query.address;
     const collection = await CollectionModel.find({
-      address: req.params.address,
+      address: queryAddress,
     })
       .lean()
       .exec();
