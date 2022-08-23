@@ -2,7 +2,7 @@ const express = require("express");
 const CollectionModel = require("../model/collection.model");
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/bundle", async (req, res) => {
   try {
     const page = +req.query.page || 1;
     const size = +req.query.size || 12;
@@ -18,12 +18,10 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:address", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-
-    const queryAddress = +req.query.address;
     const collection = await CollectionModel.find({
-      address: queryAddress,
+      address: req.query.address,
     })
       .lean()
       .exec();

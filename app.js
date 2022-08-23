@@ -100,7 +100,7 @@ app.use("/collection/asset", SingleNftController);
 // returns nfts array for a collection address
 // It has only get request and open for client
 // it takes /:address in the path to get list of nfts corresponding to a address
-app.use("/collection/bundle", NftController);
+app.use("/collection/asset/bundle", NftController);
 
 // return nft history
 // It has only get request and open for client

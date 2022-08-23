@@ -26,7 +26,6 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    console.log("I am hitted", req.query.address);
     const page = +req.query.page || 1;
     const size = +req.query.size || 12;
 
