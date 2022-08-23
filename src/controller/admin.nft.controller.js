@@ -9,34 +9,22 @@ const authenticatedRoute = require("../middleware/Auth/authenticate");
 const formatAttribute = require("../utils/formateAtrribute");
 const { formateNftList } = require("../utils/formateNfts");
 
-router.post("/:address",authenticatedRoute, async (req, res) => {
+router.post("/:address", async (req, res) => {
+
+
   try {
     //   get  _Id fromcollection by finding by address
 
-    var collection = await CollectionModel.find({
-      address: req.params.address,
-    })
-      .lean()
-      .exec();
+        var collection = await CollectionModel.findOne({address: req.params.address,}).lean().exec();
 
-    var mongoId = collection[0]._id;
-
+         if(!collection){return res.status(400).json({status: "failed",message: "Collection doesnt exists with this address" })} 
+         var mongoId = await collection._id; 
     // check if already there
 
-    let nfts = await NftModel.find({
-      contract: { address: req.params.address },
-    })
-      .limit(3)
-      .lean()
-      .exec();
+        let nfts = await NftModel.find({contract: { address: req.params.address }}).limit(3).lean().exec();
 
     // if it already exists then throw an error
-    if (nfts.length > 1) {
-      return res.status(400).json({
-        status: "failed",
-        message: " Please provide different address",
-      });
-    }
+       if (nfts.length > 1) {return res.status(400).json({status: "failed",message: " Please provide different address" })}
 
     let startToken = "";
     let hasNextPage = true;
@@ -49,20 +37,22 @@ router.post("/:address",authenticatedRoute, async (req, res) => {
           req.params.address
         );
 
-      for (let i = 0; i < nfts.length; i++) {
-        nfts[i].Collection = mongoId;
-      }
-      for (let j = 0; j < nfts.length; j++) {
-      let formatedImage={
-        src:nfts[j].tokenUri.gateway
-      }
+    for (let i = 0; i < nfts.length; i++) {
+      nfts[i].Collection = mongoId;
+    }
+    for (let j = 0; j < nfts.length; j++) {
+      let formatedImage = {
+        src: nfts[j].tokenUri.gateway,
+      };
 
-         nfts[j].name = nfts[j].metadata.name;
-          nfts[j].tokenId = nfts[j].id.tokenId;
-          nfts[j].image=formatedImage;
-         formatAttribute.formatNftAttributes(nfts[j].metadata.attributes,nfts[j]);
-          nfts[j].id = crypto.randomUUID();
-        
+      nfts[j].name = nfts[j].metadata.name;
+      nfts[j].tokenId = nfts[j].id.tokenId;
+      nfts[j].image = formatedImage;
+      formatAttribute.formatNftAttributes(
+        nfts[j].metadata.attributes,
+        nfts[j]
+      );
+        nfts[j].id = crypto.randomUUID();
       }
       let nft = await NftModel.insertMany(nfts);
 
@@ -75,14 +65,13 @@ router.post("/:address",authenticatedRoute, async (req, res) => {
       startToken = nextToken;
       totalNftsFound += nfts.length;
     }
-
-    return res.status(200).send("nfts has been uploaded");
-  } catch (e) {
+    
+    }catch (e) {
     return res.status(500).json({ status: "failed", message: e.message });
-  }
-});
+  }}
+);
 
-router.delete("/:address",authenticatedRoute, async (req, res) => {
+router.delete("/:address", async (req, res) => {
   try {
     console.log("start deleting");
     const nft = await NftModel.deleteMany({

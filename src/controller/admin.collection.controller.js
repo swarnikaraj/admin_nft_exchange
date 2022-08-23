@@ -8,9 +8,8 @@ const authenticatedRoute = require("../middleware/Auth/authenticate");
 
 const router = express.Router();
 
-
 router.post(
-  "/:address",authenticatedRoute,
+  "/:address",
   collection_middleware.createCollection,
   collection_cloudinary_uploader.uploadImage,
   async (req, res) => {
@@ -35,7 +34,6 @@ router.post(
       let finalData = {
         ...req.body,
         address: req.params.address,
-        
       };
       collection = await CollectionModel.create(finalData);
 
@@ -46,7 +44,7 @@ router.post(
   }
 );
 
-router.delete("/:address",authenticatedRoute, async (req, res) => {
+router.delete("/:address", authenticatedRoute, async (req, res) => {
   try {
     const collection = await CollectionModel.findOneAndDelete({
       address: req.params.address,
