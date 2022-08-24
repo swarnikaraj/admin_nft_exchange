@@ -1,28 +1,30 @@
 const express = require("express");
 
 const router = express.Router();
-const MakerOrderModel = require("../../model/Order/makerOrder.model");
+const MakerOrderModel = require("../../model/Order/Order.model");
+const NftModel=require("../../model/nft.model")
+const authenticated = require("../../middleware/Admin-Auth/authenticate");
 
-router.post("/:address/:tokenId", async (req, res) => {
+router.post("/:address/:tokenId", authenticated, async (req, res) => {
   try {
-    let order = await MakerOrderModel.create(req.body).lean().exec();
+    let order = await MakerOrderModel.create(req.body);
 
-    const maxBid = awaitMakerOrderModel
-      .find({})
+    const maxBid = await MakerOrderModel.find({})
+      // .select() select basisis of time
       .sort({ price: -1 })
       .limit(1)
       .exec();
 
     // write max bid to nft
 
-    const nft = await NftModel.findOneAndUpdate(
-      {
-        contract: { address: req.params.address },
-        tokenId: req.params.tokenId,
-      },
-      { bids: [maxBid] },
-      { new: true }
-    );
+    // const nft = await NftModel.findOneAndUpdate(
+    //   {
+    //     contract: { address: req.params.address },
+    //     tokenId: req.params.tokenId,
+    //   },
+    //   { bids: [maxBid] },
+    //   { new: true }
+    // );
 
     return res.status(200).json({ order });
   } catch (e) {
@@ -30,7 +32,7 @@ router.post("/:address/:tokenId", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:_id", async (req, res) => {
   try {
     const order = await MakerOrderModel.findByIdAndDelete(req.params._id);
     return res.status(201).send({ order });

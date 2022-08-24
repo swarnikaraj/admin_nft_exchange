@@ -35,7 +35,31 @@ router.get("/", async (req, res) => {
     const initialTokens = await NftModel.find({
       contract: { address: queryAddress },
     })
-      .populate("Collection")
+      .select({
+        id: 1,
+        name: 1,
+        tokenId: 1,
+        description: 1,
+        image: 1,
+        animation: 1,
+        attributes: 1,
+        cloud_image_url: 1,
+        ask: 1,
+        lastOrder: 1,
+        bids: 1,
+        _id: 0,
+        // Collection: 1,
+        // tokenUri: 0,
+        // media: 0,
+        // metadata: 0,
+        // title: 0,
+      })
+      .populate({
+        path: "Collection",
+
+        select: "-_id -attributes",
+      })
+      .sort({ name: 1 })
       .skip(skip)
       .limit(size)
       .lean()

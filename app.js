@@ -5,9 +5,20 @@ const cloudinary = require("cloudinary").v2;
 const bodyParser = require("body-parser");
 require("dotenv").config();
 const fs = require("fs");
-const authenticatedRoute = require("./src/middleware/Auth/authenticate");
+const admin_authenticatedRoute = require("./src/middleware/Admin-Auth/authenticate");
 
-const { register, login } = require("./src/controller/Auth/auth.controller");
+// This is for admin regiration and login
+const {
+  register,
+  login,
+} = require("./src/controller/Auth/admin-auth.controller");
+
+// this is authenticated for signed in user for creating bid or ask
+
+const MakerOrderController=require("./src/controller/Order/order.controller")
+
+// This is for user signIn through wallet
+const {signIn}=require("./src/controller/Auth/user-auth.controller")
 
 // this controller has post and delete request for collection
 // it is Admin controller for collection
@@ -63,8 +74,10 @@ app.get("/", (req, res) => {
 
 app.use(express.json());
 
-app.post("/admin/register", authenticatedRoute, register);
+app.post("/admin/register", register);
 app.post("/admin/login", login);
+
+app.post("/sign",signIn)
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -130,6 +143,11 @@ app.use("/admin/nft/filter/defected", NftDefectedFilterController);
 // this is unauthenticated
 // use /:name for name search
 app.use("/collection/search", CollectionSearchController);
+
+
+app.use("/order",MakerOrderController)
+
+
 
 app.listen(port, async () => {
   await connect();

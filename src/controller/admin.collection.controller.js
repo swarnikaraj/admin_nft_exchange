@@ -4,7 +4,7 @@ const CollectionModel = require("../model/collection.model");
 const collection_middleware = require("../middleware/collection.middleware");
 
 const collection_cloudinary_uploader = require("../middleware/collection.imageUploader");
-const authenticatedRoute = require("../middleware/Auth/authenticate");
+const admin_authenticatedRoute = require("../middleware/Admin-Auth/authenticate");
 
 const router = express.Router();
 
@@ -44,7 +44,7 @@ router.post(
   }
 );
 
-router.delete("/:address", authenticatedRoute, async (req, res) => {
+router.delete("/:address", admin_authenticatedRoute, async (req, res) => {
   try {
     const collection = await CollectionModel.findOneAndDelete({
       address: req.params.address,

@@ -99,9 +99,9 @@ const nftSchema = mongoose.Schema(
     ],
     // @todo image has to be cloud_image
     cloud_image_url: { type: String },
-    ask: { type: MakerOrderSchema },
-    lastOrder: { type: Order },
-    bids: [{ type: MakerOrderSchema }],
+    ask: [{ type: MakerOrderSchema ,required:false}],
+    lastOrder: [{ type: Order ,required:false}],
+    bids: [{ type: MakerOrderSchema ,required:false}],
   },
   {
     versionKey: false,

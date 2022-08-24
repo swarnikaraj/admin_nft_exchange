@@ -1,6 +1,6 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
-const User = require("../../model/Auth/user.model");
+const Admin = require("../../model/Auth/admin-auth.model");
 
 const newToken = (user) => {
   return jwt.sign({ user: user }, process.env.JWT_ACCESS_KEY);
@@ -9,7 +9,7 @@ const newToken = (user) => {
 const register = async (req, res) => {
   try {
     // check if the email address provided already exist
-    let user = await User.findOne({ email: req.body.email }).lean().exec();
+    let user = await Admin.findOne({ email: req.body.email }).lean().exec();
 
     // if it already exists then throw an error
     if (user)
@@ -19,7 +19,7 @@ const register = async (req, res) => {
       });
 
     // else we will create the user we will hash the password as plain text password is harmful
-    user = await User.create(req.body);
+    user = await Admin.create(req.body);
 
     // we will create the token
     const token = newToken(user);
@@ -34,7 +34,7 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     // check if the email address provided already exist
-    let user = await User.findOne({ email: req.body.email });
+    let user = await Admin.findOne({ email: req.body.email });
 
     // if it does not exist then throw an error
     if (!user)
