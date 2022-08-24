@@ -20,12 +20,10 @@ router.post("/:address", async (req, res) => {
       .exec();
 
     if (!collection) {
-      return res
-        .status(400)
-        .json({
-          status: "failed",
-          message: "Collection doesnt exists with this address",
-        });
+      return res.status(400).json({
+        status: "failed",
+        message: "Collection doesnt exists with this address",
+      });
     }
     var mongoId = await collection._id;
     // check if already there
@@ -39,12 +37,10 @@ router.post("/:address", async (req, res) => {
 
     // if it already exists then throw an error
     if (nfts.length > 1) {
-      return res
-        .status(400)
-        .json({
-          status: "failed",
-          message: " Please provide different address",
-        });
+      return res.status(400).json({
+        status: "failed",
+        message: " Please provide different address",
+      });
     }
 
     let startToken = "";
@@ -63,7 +59,7 @@ router.post("/:address", async (req, res) => {
       }
       for (let j = 0; j < nfts.length; j++) {
         let formatedImage = {
-          src: nfts[j].tokenUri.gateway,
+          src: nfts[j].metadata.image,
         };
 
         nfts[j].name = nfts[j].metadata.name;
@@ -74,7 +70,7 @@ router.post("/:address", async (req, res) => {
           nfts[j]
         );
         nfts[j].id = crypto.randomUUID();
-        nfts[j].ask = {};
+        nfts[j].ask = [];
         nfts[j].bids = [];
         nfts[j].lastOrder = {};
       }

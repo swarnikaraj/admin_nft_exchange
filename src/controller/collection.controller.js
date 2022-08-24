@@ -46,6 +46,7 @@ router.get("/", async (req, res) => {
         tokenId: 1,
         description: 1,
         image: 1,
+        media:1,
         animation: 1,
         attributes: 1,
         cloud_image_url: 1,
@@ -64,6 +65,10 @@ router.get("/", async (req, res) => {
       .limit(size)
       .lean()
       .exec();
+
+      for (let i = 0; i < initialTokens.length; i++) {
+        initialTokens[i].image.contenType = initialTokens[i].media[0].format;
+      }
 
     collection.initialTokens = initialTokens;
 

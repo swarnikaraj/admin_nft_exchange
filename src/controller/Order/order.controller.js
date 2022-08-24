@@ -7,10 +7,12 @@ const authenticated = require("../../middleware/Admin-Auth/authenticate");
 
 router.post("/:address/:tokenId", authenticated, async (req, res) => {
   try {
+    // address validation
     let order = await MakerOrderModel.create(req.body);
 
     const maxBid = await MakerOrderModel.find({})
       // .select() select basisis of time
+      // update time
       .sort({ price: -1 })
       .limit(1)
       .exec();
@@ -41,7 +43,7 @@ router.delete("/:_id", async (req, res) => {
   }
 });
 
-router.get("/singerAddress/:signerAddress", async (req, res) => {
+router.get("/:singerAddress", async (req, res) => {
   try {
     const order = await MakerOrderModel.find({
       signerAddress: req.params.signerAddress,
