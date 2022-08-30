@@ -71,6 +71,11 @@ router.get("/", async (req, res) => {
       }
 
     collection.initialTokens = initialTokens;
+    for(let i=0;i<initialTokens.length;i++){
+      if(initialTokens[i].image.src.slice(0,4)=="ipfs"){
+        initialTokens[i].image.src="https://ipfs.io/ipfs/"+initialTokens[i].image.src.slice(7)
+      }
+    }
 
     return res.status(201).send({ collection });
   } catch (e) {
