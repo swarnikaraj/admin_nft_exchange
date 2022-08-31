@@ -8,6 +8,8 @@ const fs = require("fs");
 const admin_authenticatedRoute = require("./src/middleware/Admin-Auth/authenticate");
 
 // This is for admin regiration and login
+const SearchNftController = require("./src/controller/searchNft.controller");
+
 const {
   register,
   login,
@@ -15,10 +17,10 @@ const {
 
 // this is authenticated for signed in user for creating bid or ask
 
-const MakerOrderController=require("./src/controller/Order/order.controller")
+const MakerOrderController = require("./src/controller/Order/order.controller");
 
 // This is for user signIn through wallet
-const {signIn}=require("./src/controller/Auth/user-auth.controller")
+const { signIn } = require("./src/controller/Auth/user-auth.controller");
 
 // this controller has post and delete request for collection
 // it is Admin controller for collection
@@ -77,10 +79,12 @@ app.use(express.json());
 app.post("/admin/register", register);
 app.post("/admin/login", login);
 
-app.post("/sign",signIn)
+app.post("/sign", signIn);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use("/query", SearchNftController);
 app.use(cors());
 
 const connect = require("./src/config/db");
@@ -144,10 +148,7 @@ app.use("/admin/nft/filter/defected", NftDefectedFilterController);
 // use /:name for name search
 app.use("/collection/search", CollectionSearchController);
 
-
-app.use("/order",MakerOrderController)
-
-
+app.use("/order", MakerOrderController);
 
 app.listen(port, async () => {
   await connect();

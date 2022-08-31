@@ -976,4 +976,6 @@ async function nftData(address, tokenType, tokenId) {
   return nft;
 }
 
+
+
 module.exports = { nftData };

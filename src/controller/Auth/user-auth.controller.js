@@ -25,19 +25,13 @@ const signIn = async (req, res) => {
           });
     }
     // check if the  address provided already exist
-    let user = await User.findOne({ address: req.body.address});
+    var user = await User.findOne({ address: req.body.address});
 
-    // if it does not exist then throw an error
     if (!user){
     user = await User.create(req.body);
-
-    // we will create the token
     token = newToken(user);
-
-    // return the user and the token
-    // res.status(201).json({ user, token });
     }
-    // else we match the address
+    // else we match the signature
     // const match = await user.checkPassword(req.body.address);
 
     // if not match then throw an error
@@ -45,7 +39,6 @@ const signIn = async (req, res) => {
     //     user = await User.create(req.body);
     // }
    
-
     // if it matches then create the token
      token = newToken(user);
 
