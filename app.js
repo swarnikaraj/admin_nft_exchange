@@ -9,6 +9,7 @@ const fs = require("fs");
 const admin_authenticatedRoute = require("./src/middleware/Admin-Auth/authenticate");
 
 // This is for admin regiration and login
+const UserAccountController = require("./src/controller/account.controller");
 
 const {
   register,
@@ -67,8 +68,7 @@ const HistoryController = require("./src/controller/nftHistory.controller");
 
 const CollectionSearchController = require("./src/controller/searchCollection.controller");
 
-const NftOwnerController=require("./src/controller/nftOwner.controller")
-
+const NftOwnerController = require("./src/controller/nftOwner.controller");
 
 const app = express();
 
@@ -86,7 +86,6 @@ app.post("/sign", signIn);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 
 app.use(cors());
 
@@ -123,7 +122,7 @@ app.use("/collection/asset", SingleNftController);
 // it takes /:address in the path to get list of nfts corresponding to a address
 app.use("/collection/asset/bundle", NftController);
 
-app.use("/collection/asset/owner",NftOwnerController)
+app.use("/collection/asset/owner", NftOwnerController);
 // return nft history
 // It has only get request and open for client
 // it takes /:address/:index in the path to get single nft
@@ -154,6 +153,8 @@ app.use("/admin/nft/filter/defected", NftDefectedFilterController);
 app.use("/collection/search", CollectionSearchController);
 
 app.use("/order", MakerOrderController);
+
+app.use("/account", UserAccountController);
 
 app.listen(port, async () => {
   await connect();

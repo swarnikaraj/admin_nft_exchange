@@ -31,8 +31,8 @@ const MakerOrderSchema = mongoose.Schema(
 const userSchema = new mongoose.Schema(
   {
     name: { type: String, required: false },
-    profile: { type: Object },
-    hashAddress:{type:String},
+    profile: { type: Object, required: true },
+    hashAddress: { type: String },
     address: { type: String, required: true },
     asks: [{ type: MakerOrderSchema, required: false }],
     bids: [{ type: MakerOrderSchema, required: false }],
