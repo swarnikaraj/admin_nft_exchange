@@ -31,10 +31,33 @@ router.get("/", async (req, res) => {
 
     const skip = (page - 1) * size;
     const queryAddress = req.query.address;
-
-    const initialTokens = await NftModel.find({
+    var queryString = {
       contract: { address: queryAddress },
-    })
+    };
+
+    if (req.query.search && req.query.search.stringTraits) {
+      var attributes = req.query.search.stringTraits;
+
+      const traitsQueryAll = attributes.map((trait) => {
+        const traitsQueryEach = trait.values.map((v) => {
+          return {
+            traitType: trait.name,
+            value: v,
+          };
+        });
+        return {
+          $elemMatch: {
+            $or: traitsQueryEach,
+          },
+        };
+      });
+      queryString = {
+        ...queryString,
+        attributes: { $all: traitsQueryAll },
+      };
+    }
+
+    const initialTokens = await NftModel.find(queryString)
       .select({
         id: 1,
         name: 1,
@@ -76,14 +99,10 @@ router.get("/", async (req, res) => {
     }
 
     totalPages = Math.ceil(
-      (await NftModel.find({
-        contract: { address: queryAddress },
-      }).countDocuments()) / size
+      (await NftModel.find(queryString).countDocuments()) / size
     );
 
-    totalNfts = await NftModel.find({
-      contract: { address: queryAddress },
-    }).countDocuments();
+    totalNfts = await NftModel.find(queryString).countDocuments();
 
     return res.status(201).send({ initialTokens, totalPages, totalNfts });
   } catch (e) {
