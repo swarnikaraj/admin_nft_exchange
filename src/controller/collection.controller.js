@@ -68,13 +68,16 @@ router.get("/", async (req, res) => {
 
       for (let i = 0; i < initialTokens.length; i++) {
         initialTokens[i].image.contenType = initialTokens[i].media[0].format;
+        
       }
 
     collection.initialTokens = initialTokens;
     for(let i=0;i<initialTokens.length;i++){
+      initialTokens[i].tokenId=Number(initialTokens[i].tokenId);
       if(initialTokens[i].image.src.slice(0,4)=="ipfs"){
         initialTokens[i].image.src="https://ipfs.io/ipfs/"+initialTokens[i].image.src.slice(7)
       }
+
     }
 
     return res.status(201).send({ collection });
