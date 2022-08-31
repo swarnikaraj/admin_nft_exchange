@@ -1,14 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const Moralis_data=require("../GET_DATA/Moralis/getHistory")
-
+const Blockchain_data=require("../GET_DATA/BlockChain/getOwner")
+const Alchemy_data=require("../GET_DATA/Alchemy/getNftOwner")
 
   
-  router.get("/:address/:index", async (req, res) => {
+  router.get("/", async (req, res) => {
     try {
-      const nft = await Moralis_data.nftHistory(
-        req.params.address,
-        req.params.index
+      const nft = await Alchemy_data.getNftOwner(
+        req.query.address,
+        req.query.tokenId
       );
       console.log(nft);
   

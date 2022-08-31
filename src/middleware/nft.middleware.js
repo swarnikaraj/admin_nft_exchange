@@ -1,6 +1,6 @@
 const nfts_data = require("../GET_DATA/Alchemy/getNftsForCollection");
 const nft_metadata = require("../GET_DATA/Alchemy/getNftMetaData");
-const nft_Blockchain = require("../GET_DATA/BlockChain/getNfts");
+const nft_Blockchain = require("../GET_DATA/BlockChain/getTokenURI");
 
 const getNftsForPost = async (address, req) => {
   const nftData = await nfts_data.getNFTsForCollectionOnce(address);
@@ -19,7 +19,7 @@ const getNftsForUpdate = async (defectedNft) => {
 };
 
 const getTokenUriBlockchain = async (address, tokenId, tokenType) => {
-  let tokenUri = await nft_Blockchain.nftData(address, tokenId, tokenType);
+  let tokenUri = await nft_Blockchain.nftTokenURI(address, tokenId, tokenType);
 
   return tokenUri;
 };
@@ -30,7 +30,7 @@ const getTokenUriForUpdateBlockChain = async (defectedNft) => {
   let tokenId = defectedNft.id.tokenId;
   let tokenType = defectedNft.id.tokenMetadata.tokenType;
 
-  let { tokenUri } = await nft_Blockchain.nftData(address, tokenId, tokenType);
+  let { tokenUri } = await nft_Blockchain.nftTokenURI(address, tokenId, tokenType);
 
   return tokenUri;
 };

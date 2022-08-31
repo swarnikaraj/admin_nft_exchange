@@ -5,10 +5,10 @@ const cloudinary = require("cloudinary").v2;
 const bodyParser = require("body-parser");
 require("dotenv").config();
 const fs = require("fs");
+
 const admin_authenticatedRoute = require("./src/middleware/Admin-Auth/authenticate");
 
 // This is for admin regiration and login
-const SearchNftController = require("./src/controller/searchNft.controller");
 
 const {
   register,
@@ -67,6 +67,9 @@ const HistoryController = require("./src/controller/nftHistory.controller");
 
 const CollectionSearchController = require("./src/controller/searchCollection.controller");
 
+const NftOwnerController=require("./src/controller/nftOwner.controller")
+
+
 const app = express();
 
 app.get("/", (req, res) => {
@@ -84,7 +87,7 @@ app.post("/sign", signIn);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use("/query", SearchNftController);
+
 app.use(cors());
 
 const connect = require("./src/config/db");
@@ -120,6 +123,7 @@ app.use("/collection/asset", SingleNftController);
 // it takes /:address in the path to get list of nfts corresponding to a address
 app.use("/collection/asset/bundle", NftController);
 
+app.use("/collection/asset/owner",NftOwnerController)
 // return nft history
 // It has only get request and open for client
 // it takes /:address/:index in the path to get single nft

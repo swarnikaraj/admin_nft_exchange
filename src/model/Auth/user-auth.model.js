@@ -32,6 +32,7 @@ const userSchema = new mongoose.Schema(
   {
     name: { type: String, required: false },
     profile: { type: Object },
+    hashAddress:{type:String},
     address: { type: String, required: true },
     asks: [{ type: MakerOrderSchema, required: false }],
     bids: [{ type: MakerOrderSchema, required: false }],
@@ -45,7 +46,7 @@ const userSchema = new mongoose.Schema(
 userSchema.pre("save", function (next) {
   if (!this.isModified("address")) return next();
   bcrypt.hash(this.address, 10, (err, hash) => {
-    this.address = hash;
+    this.hashAddress = hash;
     return next();
   });
 });

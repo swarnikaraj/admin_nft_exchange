@@ -3,7 +3,7 @@ const Web3 = require("web3");
 const tokenType = require("../../utils/checkTokenType");
 //contract instance
 
-async function nftData(address, tokenId) {
+async function nftTokenURI(address, tokenType, tokenId) {
   console.log(address);
 
   var contractAddress = address;
@@ -949,13 +949,13 @@ async function nftData(address, tokenId) {
     },
     { stateMutability: "payable", type: "receive" },
   ];
-  let abi = abiERC721;
+  let abi = null;
 
-  // if (tokenType == "ERC721") {
-  //   abi = abiERC721;
-  // } else {
-  //   abi = abiERC115;
-  // }
+  if (tokenType == "ERC721") {
+    abi = abiERC721;
+  } else {
+    abi = abiERC115;
+  }
 
   const ethNetwork =
     "https://eth-mainnet.g.alchemy.com/v2/Mbfg1nWBOL-wUBWLDFAwmD8zZ4xlOOs9";
@@ -965,24 +965,16 @@ async function nftData(address, tokenId) {
   var contract = new web3.eth.Contract(abi, contractAddress);
 
   const nft = {};
-  // console.log(contract.methods);
-  // await contract.methods.owner().call(function (err, res) {
-  //   if (!err) {
-  //     nft.owner = res;
-  //     console.log(nft);
-  //   } else {
-  //     console.log(err);
-  //   }
-  // });
-  // await contract.methods.tokenURI(tokenId).call(function (err, res) {
-  //   if (!err) {
-  //     nft.tokenUri = res;
-  //   } else {
-  //     console.log(err);
-  //   }
-  // });
+
+  await contract.methods.tokenURI(tokenId).call(function (err, res) {
+    if (!err) {
+      nft.tokenUri = res;
+    } else {
+      console.log(err);
+    }
+  });
 
   return nft;
 }
 
-module.exports = { nftData };
+module.exports = { nftTokenURI };
