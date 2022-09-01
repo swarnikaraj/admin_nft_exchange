@@ -23,9 +23,9 @@ const signIn = async (req, res) => {
       });
     }
 
-    OwnedNfts = await Alchemy_data.getNftsCollected(req.body.address);
+    // OwnedNfts = await Alchemy_data.getNftsCollected(req.body.address);
 
-    var profile = { ownedNfts: OwnedNfts.ownedNfts };
+    // var profile = { ownedNfts: OwnedNfts.ownedNfts };
     // check if the  address provided already exist
     var user = await User.findOne({ address: req.body.address });
 
@@ -55,7 +55,7 @@ const signIn = async (req, res) => {
     // if it matches then create the token
 
     token = newToken(user);
-    user.profile = profile;
+    // user.profile = profile;
 
     // return the user and the token
     res.status(201).json({ user, token });
