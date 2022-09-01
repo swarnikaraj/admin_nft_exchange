@@ -41,8 +41,8 @@ router.get("/", async (req, res) => {
       const traitsQueryAll = attributes.map((trait) => {
         const traitsQueryEach = trait.values.map((v) => {
           return {
-            traitType: trait.name,
-            value: v,
+            traitType: new RegExp(`^${trait.name}$`, "i"),
+            value: new RegExp(`^${v}$`, "i"),
           };
         });
         return {
@@ -104,7 +104,7 @@ router.get("/", async (req, res) => {
 
     totalNfts = await NftModel.find(queryString).countDocuments();
 
-    return res.status(201).send({ initialTokens, totalPages, totalNfts });
+    return res.status(201).send({ initialTokens, totalPages, totalNfts ,page});
   } catch (e) {
     return res.status(500).json({ status: "failed", message: e.message });
   }

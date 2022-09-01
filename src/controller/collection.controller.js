@@ -49,8 +49,8 @@ router.get("/", async (req, res) => {
       const traitsQueryAll = attributes.map((trait) => {
         const traitsQueryEach = trait.values.map((v) => {
           return {
-            trait_type: trait.name,
-            value: v,
+            traitType: new RegExp(`^${trait.name}$`, "i"),
+            value: new RegExp(`^${v}$`, "i"),
           };
         });
         return {

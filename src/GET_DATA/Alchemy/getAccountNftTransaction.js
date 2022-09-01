@@ -9,7 +9,7 @@ let data = JSON.stringify({
   params: [
     {
       fromBlock: "0x0",
-      fromAddress: "0x811FdFff475631c25fC2c2495b4d7e662B9c6988",
+      fromAddress: "0x5c43B1eD97e52d009611D89b74fA829FE4ac56b1",
     },
   ],
 });
@@ -20,10 +20,12 @@ var requestOptions = {
   data: data,
 };
 
-const apiKey = "demo";
-const baseURL = `${Alchemy.baseURL}`;
-const axiosURL = `${baseURL}`;
+const axiosURL = `${Alchemy.baseURL}`;
 
 axios(axiosURL, requestOptions)
-  .then((response) => console.log(JSON.stringify(response.data, null, 2)))
-  .catch((error) => console.log(error));
+  .then((response) =>
+    console.log(JSON.stringify(response.data, null, 2), "hello")
+  )
+  .catch((error) => console.log(error, "erro hu"));
+
+  
