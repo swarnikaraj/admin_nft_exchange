@@ -12,7 +12,7 @@ const admin_authenticatedRoute = require("./src/middleware/Admin-Auth/authentica
 const UserAccountController = require("./src/controller/account.controller");
 const TokenIdUpdateController = require("./src/controller/UPDATE/NftUpdate/tokenIdNft");
 const GoogleImageUpdateController = require("./src/controller/UPDATE/NftUpdate/geneiNft");
-
+const ProfileController = require("./src/controller/profile.controller");
 const {
   register,
   login,
@@ -161,6 +161,8 @@ app.use("/account", UserAccountController);
 app.use("/admin/update/tokenId", TokenIdUpdateController);
 
 app.use("/admin/update/google_img", GoogleImageUpdateController);
+
+app.use("/profile", ProfileController);
 app.listen(port, async () => {
   await connect();
   console.log(`server is runnning at port ${port}`);

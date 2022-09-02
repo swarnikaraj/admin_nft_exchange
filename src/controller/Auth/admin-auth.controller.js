@@ -6,6 +6,8 @@ const newToken = (user) => {
   return jwt.sign({ user: user }, process.env.JWT_ACCESS_KEY);
 };
 
+
+
 const register = async (req, res) => {
   try {
     // check if the email address provided already exist
