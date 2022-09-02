@@ -10,15 +10,26 @@ router.get("/", async (req, res) => {
     const profile = await UserModel.findOne({ address: req.query.address });
 
     const ownedNfts = await Alchemy_data.getNftsCollected(req.query.address);
+    for (let i = 0; i < ownedNfts.ownedNfts.length; i++) {
+        ownedNfts.ownedNfts[i]["id"]["tokenId"] = Number(
+          ownedNfts.ownedNfts[i]["id"]["tokenId"]
+        );
+      }
     var newprofile;
     if (!profile) {
+
+
       newprofile = {
         profile: { name: "No Name", ownedNfts: ownedNfts.ownedNfts },
       };
       newprofile.address = req.query.address;
       newprofile.asks = [];
       newprofile.bids = [];
+
+
+      
     }
+
 
     return res.status(201).send({ newprofile });
   } catch (e) {

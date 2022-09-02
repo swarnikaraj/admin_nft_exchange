@@ -3,10 +3,9 @@ const UserModel = require("../model/Auth/user-auth.model");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
-
-function newToken(user){
+function newToken(user) {
   return jwt.sign({ user: user }, process.env.JWT_ACCESS_KEY);
-};
+}
 
 const Alchemy_data = require("../GET_DATA/Alchemy/getAccountNfts");
 const authenticate = require("../middleware/Admin-Auth/authenticate");
@@ -26,6 +25,12 @@ router.get("/", async (req, res) => {
 
     const ownedNfts = await Alchemy_data.getNftsCollected(req.query.address);
 
+    for (let i = 0; i < ownedNfts.ownedNfts.length; i++) {
+      ownedNfts.ownedNfts[i]["id"]["tokenId"] = Number(
+        ownedNfts.ownedNfts[i]["id"]["tokenId"]
+      );
+    }
+
     account.profile = { ...account.profile, ownedNfts: ownedNfts.ownedNfts };
 
     return res.status(201).send({ account, token });
@@ -33,7 +38,6 @@ router.get("/", async (req, res) => {
     return res.status(500).json({ status: "failed", message: e.message });
   }
 });
-
 
 router.patch("/", authenticate, async (req, res) => {
   try {
