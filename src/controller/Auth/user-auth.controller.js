@@ -30,7 +30,8 @@ const signIn = async (req, res) => {
     var user = await User.findOne({ address: req.body.address });
 
     if (!user) {
-      req.body.profile = {};
+      req.body.profile = new Object();
+      req.body.profile["name"] = "No Name";
       user = await User.create(req.body);
 
       token = newToken(user);

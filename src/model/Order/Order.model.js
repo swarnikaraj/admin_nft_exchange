@@ -34,8 +34,7 @@ const makerOrderSchema = mongoose.Schema(
 
 const OrderBook=mongoose.Schema({
   nft_id:{type:mongoose.Schema.Types.ObjectId,
-    ref:'nft'},
-   
+    ref:'nft'},   
   collectionAddress: { type: String ,required:true},
   tokenId: { type: String,required:true },
   asks:[{type:makerOrderSchema}],

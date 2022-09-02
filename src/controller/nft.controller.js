@@ -104,7 +104,7 @@ router.get("/", async (req, res) => {
 
     totalNfts = await NftModel.find(queryString).countDocuments();
 
-    return res.status(201).send({ initialTokens, totalPages, totalNfts ,page});
+    return res.status(201).send({ initialTokens, totalPages, totalNfts, page });
   } catch (e) {
     return res.status(500).json({ status: "failed", message: e.message });
   }

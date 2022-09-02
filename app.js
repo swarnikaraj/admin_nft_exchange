@@ -10,6 +10,8 @@ const admin_authenticatedRoute = require("./src/middleware/Admin-Auth/authentica
 
 // This is for admin regiration and login
 const UserAccountController = require("./src/controller/account.controller");
+const TokenIdUpdateController = require("./src/controller/UPDATE/NftUpdate/tokenIdNft");
+const GoogleImageUpdateController = require("./src/controller/UPDATE/NftUpdate/geneiNft");
 
 const {
   register,
@@ -156,6 +158,9 @@ app.use("/order", MakerOrderController);
 
 app.use("/account", UserAccountController);
 
+app.use("/admin/update/tokenId", TokenIdUpdateController);
+
+app.use("/admin/update/google_img", GoogleImageUpdateController);
 app.listen(port, async () => {
   await connect();
   console.log(`server is runnning at port ${port}`);

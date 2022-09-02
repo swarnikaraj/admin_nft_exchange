@@ -63,7 +63,7 @@ router.post("/:address", async (req, res) => {
         };
 
         nfts[j].name = nfts[j].metadata.name;
-        nfts[j].tokenId = nfts[j].id.tokenId;
+        nfts[j].tokenId = Number(nfts[j].id.tokenId);
         nfts[j].image = formatedImage;
         formatAttribute.formatNftAttributes(
           nfts[j].metadata.attributes,

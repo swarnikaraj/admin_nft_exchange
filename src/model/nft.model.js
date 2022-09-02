@@ -102,6 +102,7 @@ const nftSchema = mongoose.Schema(
     ask: [{ type: MakerOrderSchema ,required:false}],
     lastOrder: [{ type: Order ,required:false}],
     bids: [{ type: MakerOrderSchema ,required:false}],
+    rarity:{type:Object, required:false}
   },
   {
     versionKey: false,
