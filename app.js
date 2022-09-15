@@ -13,6 +13,8 @@ const UserAccountController = require("./src/controller/account.controller");
 const TokenIdUpdateController = require("./src/controller/UPDATE/NftUpdate/tokenIdNft");
 const GoogleImageUpdateController = require("./src/controller/UPDATE/NftUpdate/geneiNft");
 const ProfileController = require("./src/controller/profile.controller");
+
+const GenieNftAdminPostController = require("./src/controller/ADMIN/post/NFT/genei.nft.controller");
 const {
   register,
   login,
@@ -133,6 +135,8 @@ app.use("/collection/history/", HistoryController);
 // it has get post delete request for Nft
 // it only takes address as params
 app.use("/admin/nft", AdminNftController);
+
+app.use("/admin/nft/genei", GenieNftAdminPostController);
 
 // it takes updateDefected/tokenURI in the path for tokenURI update
 // it takes defected array of nfts as req.body

@@ -30,7 +30,7 @@ const formatCollectionAtrributes = (traits) => {
   return finalTraits;
 };
 
-const formatNftAttributes = (traits,nft) => {
+const formatNftAttributes = (traits, nft) => {
   finalTraits = [];
 
   for (let i = 0; i < traits.length; i++) {
@@ -40,11 +40,28 @@ const formatNftAttributes = (traits,nft) => {
       value: traits[i].value,
     };
 
-   finalTraits.push(obj)
+    finalTraits.push(obj);
   }
 
-  nft.attributes=finalTraits
-  
+  nft.attributes = finalTraits;
 };
 
-module.exports = { formatCollectionAtrributes, formatNftAttributes };
+const formatNftAtrributesTypeObject = (traits, nft) => {
+  var keys = Object.keys(traits);
+  var finalTraits = [];
+  for (let i = 0; i < keys.length; i++) {
+    let obj = {
+      id: crypto.randomUUID(),
+      traitType: keys[i],
+      value: traits[keys[i]],
+    };
+    finalTraits.push(obj);
+  }
+  nft.attributes = finalTraits;
+};
+
+module.exports = {
+  formatCollectionAtrributes,
+  formatNftAttributes,
+  formatNftAtrributesTypeObject,
+};

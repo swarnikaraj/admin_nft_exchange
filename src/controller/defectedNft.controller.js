@@ -5,7 +5,7 @@ const router = express.Router();
 
 const admin_authenticatedRoute = require("../middleware/Admin-Auth/authenticate");
 
-router.get("/:address", admin_authenticatedRoute, async (req, res) => {
+router.get("/:address", async (req, res) => {
   try {
     console.log("runnin controller", req.params.address);
     const nft = await NftModel.find({

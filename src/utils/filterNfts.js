@@ -16,9 +16,9 @@ function nftObjectCheck(nftObject) {
     // Object.keys(nftObject.id.tokenMetadata).length > 0 &&
     // nftObject.title.length > 0 &&
     // nftObject.description.length > 0 &&
-    nftObject.tokenUri.gateway.length > 5 &&
+    // nftObject.tokenUri.gateway.length > 5 &&
     // Object.keys(nftObject.media).length > 0 &&
-    nftObject.metadata.attributes.length > 0 
+    nftObject.metadata.attributes.length > 2
     // nftObject.metadata.name.length > 0 &&
     // nftObject.metadata.image.length > 0
   );
@@ -28,9 +28,10 @@ function nftObjectCheck(nftObject) {
 function nftArrayCheck(nftsArray) {
   let failedList = [];
   for (let i = 0; i < nftsArray.length; i++) {
-    if (nftObjectCheck(nftsArray[i]) == false) {
+    if (nftObjectCheck(nftsArray[i]) === false) {
       failedList.push(nftsArray[i]);
     }
+    console.log(failedList);
   }
 
   return failedList;

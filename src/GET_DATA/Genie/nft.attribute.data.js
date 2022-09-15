@@ -1,6 +1,7 @@
 const axios = require("axios");
 
 const Genie_endpoint = require(`../../API/genie`);
+const Format_Atrribute=require("../../utils/formateAtrribute")
 
 const requestData = {
   filters: {
@@ -29,13 +30,11 @@ const requestData = {
   markets: [],
 };
 
-
-
 async function getNfts(address) {
   try {
     var hasnext = true;
     requestData.filters.address = address;
-  
+
     const options = {
       url: `${Genie_endpoint.ENPOINT}`,
       method: "POST",
@@ -54,9 +53,12 @@ async function getNfts(address) {
       hasnext = resData.hasNext;
 
       for (let i = 0; i < resData.data.length; i++) {
+     
+        var formattedAtrr=Format_Atrribute.formatNftAttributes(resData.data[i].traits,resData.data[i])
+
         myobj[resData.data[i].tokenId] = {
-          google_img: resData.data[i].imageUrl,
-          rarity: resData.data[i].rarity,
+        attributes: formattedAtrr
+       
         };
 
         requestData.offset = requestData.offset + 1;

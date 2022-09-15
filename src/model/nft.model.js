@@ -75,16 +75,8 @@ const nftSchema = mongoose.Schema(
       ref: "collection",
     },
     contract: { type: Object },
-
-    // @todo collection for collection id ref
-
-    // @todo _id to id
-    id: { type: String },
     name: { type: String },
     tokenId: { type: String },
-
-    //  @todo title is name
-
     description: { type: String },
     tokenUri: { type: Object },
     media: { type: Object },

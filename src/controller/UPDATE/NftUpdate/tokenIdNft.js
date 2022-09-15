@@ -21,7 +21,7 @@ router.patch("/:address", async (req, res) => {
       console.log(changednft);
     }
 
-    return res.status(200).json({ nft });
+    return res.status(200).json("updated token iDs");
   } catch (e) {
     return res.status(500).json({ status: "failed", message: e.message });
   }
